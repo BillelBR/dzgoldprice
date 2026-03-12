@@ -1,248 +1,2032 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <meta name="description" content="portfolio">
-    <meta name="author" content="Billel Br">
-    <meta name="keywords" content="html,css,coding,code,learn,portfolio,dev web,web dev,freelancer,web developer,project,programmation">
-    <meta >
-    <title>Billel Br</title>
-    <link rel="icon" href="images/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="أسعار الذهب في الجزائر - حساب علمي مطابق للسوق الموازي">
+    <title>Gold Algeria | أسعار الذهب في الجزائر</title>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome Pro Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --gold-light: #F4E4BC;
+            --gold-dark: #B8860B;
+            --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #B8860B 100%);
+            --bg-light: #f8f9fa;
+            --bg-dark: #0f172a;
+            --card-light: #ffffff;
+            --card-dark: #1e293b;
+            --text-light: #1e293b;
+            --text-dark: #f1f5f9;
+            --text-muted-light: #64748b;
+            --text-muted-dark: #94a3b8;
+            --shadow-light: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-dark: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.5);
+            --shadow-gold: 0 10px 40px -10px rgba(212,175,55,0.3);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: var(--transition);
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* Header Modern */
+        .header {
+            background: var(--gold-gradient);
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            box-shadow: var(--shadow-gold);
+            isolation: isolate;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: clamp(0.875rem, 2vw, 1.1rem);
+            font-weight: 500;
+        }
+
+        /* Control Buttons */
+        .controls {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .controls-left {
+            left: 1rem;
+        }
+
+        .controls-right {
+            right: 1rem;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .icon-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.2);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .icon-btn:hover::before {
+            opacity: 1;
+        }
+
+        .icon-btn:active {
+            transform: translateY(0) scale(0.95);
+        }
+
+        /* Mobile Controls Adjustment */
+        @media (max-width: 640px) {
+            .header {
+                padding: 1.25rem 1rem;
+            }
+            
+            .controls {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 1rem;
+                gap: 1rem;
+            }
+            
+            .controls-left, .controls-right {
+                position: static;
+            }
+            
+            .icon-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            width: 100%;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        /* Settings Panel Modern */
+        .settings-panel {
+            background: var(--card-light);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(212,175,55,0.2);
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+
+        .dark-mode .settings-panel {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        .settings-panel.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .settings-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            color: var(--gold-dark);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .setting-item label {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dark-mode .setting-item label {
+            color: var(--text-dark);
+        }
+
+        .setting-item label i {
+            color: var(--gold-dark);
+            font-size: 0.875rem;
+        }
+
+        .setting-item input {
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: white;
+            color: var(--text-light);
+        }
+
+        .dark-mode .setting-item input {
+            background: #334155;
+            border-color: #475569;
+            color: var(--text-dark);
+        }
+
+        .setting-item input:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+        }
+
+        .formula-display {
+            background: linear-gradient(135deg, rgba(212,175,55,0.05), rgba(184,134,11,0.05));
+            border: 2px dashed var(--gold-primary);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8125rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .formula-display code {
+            color: var(--gold-dark);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .settings-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Live Indicator Modern */
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.625rem;
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+            padding: 0.625rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .dark-mode .live-indicator {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pulse::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid #22c55e;
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+
+        /* Price Cards Grid */
+        .prices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 640px) {
+            .prices-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .price-card {
+            background: var(--card-light);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(212,175,55,0.15);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dark-mode .price-card {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        .price-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gold-gradient);
+        }
+
+        .price-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-gold);
+            border-color: rgba(212,175,55,0.3);
+        }
+
+        .carat-label {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--gold-dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .carat-label i {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .price-value {
+            font-size: clamp(1.75rem, 4vw, 2.25rem);
+            font-weight: 800;
+            color: var(--text-light);
+            margin: 0.75rem 0;
+            font-family: 'Inter', monospace;
+            letter-spacing: -0.02em;
+        }
+
+        .dark-mode .price-value {
+            color: var(--text-dark);
+        }
+
+        .price-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .price-up {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .price-down {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        .dark-mode .price-up {
+            background: rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+        }
+
+        .dark-mode .price-down {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+        }
+
+        .price-details {
+            margin-top: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(212,175,55,0.2);
+            font-size: 0.75rem;
+            color: var(--text-muted-light);
+            line-height: 1.8;
+        }
+
+        .dark-mode .price-details {
+            color: var(--text-muted-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        /* Chart Section */
+        .chart-section {
+            background: var(--card-light);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+
+        .dark-mode .chart-section {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--gold-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+        }
+
+        .section-title i {
+            font-size: 1.125rem;
+        }
+
+        .time-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .time-btn {
+            padding: 0.625rem 1.25rem;
+            border: 2px solid var(--gold-primary);
+            background: transparent;
+            color: var(--gold-dark);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 0.875rem;
+            font-family: inherit;
+        }
+
+        .time-btn:hover, .time-btn.active {
+            background: var(--gold-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+        }
+
+        .dark-mode .time-btn {
+            color: var(--gold-light);
+        }
+
+        /* Converter Section */
+        .converter-section {
+            background: var(--gold-gradient);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .converter-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .converter-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .converter-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 1.25rem;
+            align-items: end;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .converter-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .converter-section {
+                padding: 1.5rem;
+            }
+        }
+
+        .converter-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+        }
+
+        .converter-input-group label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .converter-input-group input, .converter-input-group select {
+            padding: 1rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.125rem;
+            background: rgba(255,255,255,0.95);
+            color: #1e293b;
+            font-family: inherit;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .converter-input-group input:focus, .converter-input-group select:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+        }
+
+        .swap-btn {
+            background: white;
+            border: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: var(--gold-dark);
+            font-size: 1.25rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .swap-btn:hover {
+            transform: rotate(180deg) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .swap-btn {
+                width: 48px;
+                height: 48px;
+                margin: 0 auto;
+            }
+            
+            .swap-btn:hover {
+                transform: rotate(90deg) scale(1.05);
+            }
+        }
+
+        /* Calculator Section */
+        .calculator-section {
+            background: var(--card-light);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+
+        .dark-mode .calculator-section {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        .calc-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+        }
+
+        .calc-input-group label {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .dark-mode .calc-input-group label {
+            color: var(--text-dark);
+        }
+
+        .calc-input-group label i {
+            color: var(--gold-dark);
+            font-size: 0.875rem;
+        }
+
+        .calc-input-group input, .calc-input-group select {
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: var(--transition);
+            background: white;
+            color: var(--text-light);
+        }
+
+        .dark-mode .calc-input-group input, .dark-mode .calc-input-group select {
+            background: #334155;
+            border-color: #475569;
+            color: var(--text-dark);
+        }
+
+        .calc-input-group input:focus, .calc-input-group select:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+        }
+
+        .calc-result {
+            grid-column: 1 / -1;
+            background: var(--gold-gradient);
+            color: white;
+            padding: 1.75rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calc-result::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .calc-result-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .calc-result-value {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            font-family: 'Inter', monospace;
+            position: relative;
+            z-index: 1;
+        }
+
+        .calc-breakdown {
+            font-size: 0.8125rem;
+            opacity: 0.9;
+            margin-top: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Alerts Section */
+        .alerts-section {
+            background: var(--card-light);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+
+        .dark-mode .alerts-section {
+            background: var(--card-dark);
+            box-shadow: var(--shadow-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        .section-description {
+            color: var(--text-muted-light);
+            font-size: 0.9375rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .dark-mode .section-description {
+            color: var(--text-muted-dark);
+        }
+
+        .alert-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .alert-item {
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .alert-item:hover {
+            background: rgba(212, 175, 55, 0.12);
+            transform: translateX(4px);
+        }
+
+        .alert-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .alert-karat {
+            font-weight: 700;
+            color: var(--gold-dark);
+            font-size: 1rem;
+        }
+
+        .alert-condition {
+            font-size: 0.875rem;
+            color: var(--text-muted-light);
+        }
+
+        .dark-mode .alert-condition {
+            color: var(--text-muted-dark);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.75rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.9375rem;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gold-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(212,175,55,0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212,175,55,0.4);
+        }
+
+        .btn-secondary {
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 1.25rem;
+            right: 1.25rem;
+            background: var(--card-light);
+            color: var(--text-light);
+            padding: 1.25rem;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: var(--transition);
+            z-index: 1000;
+            max-width: 380px;
+            border-left: 4px solid var(--gold-primary);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .dark-mode .notification {
+            background: var(--card-dark);
+            color: var(--text-dark);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gold-gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.125rem;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--gold-dark);
+        }
+
+        .notification-message {
+            font-size: 0.9375rem;
+            color: var(--text-muted-light);
+        }
+
+        .dark-mode .notification-message {
+            color: var(--text-muted-dark);
+        }
+
+        /* Footer Modern */
+        .footer {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: var(--card-light);
+            margin-top: 3rem;
+            border-top: 1px solid rgba(212,175,55,0.2);
+        }
+
+        .dark-mode .footer {
+            background: var(--card-dark);
+            border-color: rgba(212,175,55,0.1);
+        }
+
+        .footer-main {
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .dark-mode .footer-title {
+            color: var(--text-dark);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.8125rem;
+            color: var(--text-muted-light);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .dark-mode .footer-disclaimer {
+            color: var(--text-muted-dark);
+        }
+
+        /* Developer Credit - Modern Style */
+        .developer-credit {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(212,175,55,0.2);
+        }
+
+        .developer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--gold-dark);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 50px;
+            border: 2px solid var(--gold-primary);
+            transition: var(--transition);
+            background: rgba(212,175,55,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .developer-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-gradient);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .developer-link:hover {
+            color: white;
+            border-color: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212,175,55,0.3);
+        }
+
+        .developer-link:hover::before {
+            opacity: 1;
+        }
+
+        .developer-link i {
+            font-size: 1.125rem;
+            transition: var(--transition);
+        }
+
+        .developer-link:hover i {
+            transform: translateX(3px);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted-light);
+        }
+
+        .dark-mode .empty-state {
+            color: var(--text-muted-dark);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive Typography */
+        @media (max-width: 640px) {
+            html {
+                font-size: 14px;
+            }
+            
+            .section-title {
+                font-size: 1.125rem;
+            }
+            
+            .time-buttons {
+                width: 100%;
+            }
+            
+            .time-btn {
+                flex: 1;
+                padding: 0.5rem;
+                font-size: 0.8125rem;
+            }
+            
+            .chart-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .notification {
+                left: 1rem;
+                right: 1rem;
+                max-width: none;
+                top: auto;
+                bottom: 1.25rem;
+                transform: translateY(200px);
+            }
+            
+            .notification.show {
+                transform: translateY(0);
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .header, .controls, .settings-panel, .notification, .developer-credit {
+                display: none !important;
+            }
+            
+            body {
+                background: white;
+                color: black;
+            }
+            
+            .price-card, .chart-section, .calculator-section, .alerts-section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus Visible */
+        *:focus-visible {
+            outline: 2px solid var(--gold-primary);
+            outline-offset: 2px;
+        }
+
+        /* Selection */
+        ::selection {
+            background: rgba(212,175,55,0.3);
+            color: inherit;
+        }
+    </style>
 </head>
 <body>
-
-    <header>
-     
-       
-        <a href="#" class="logo">Billel Br</a>
-        <nav class="navigation">
-            <a href="#services">Services</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-            <a href="#AboutMe">About Me</a>
-        </nav>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="controls controls-left">
+                <button class="icon-btn" onclick="toggleDarkMode()" title="تبديل الوضع المظلم">
+                    <i class="fas fa-moon" id="darkModeIcon"></i>
+                </button>
+                <button class="icon-btn" onclick="toggleSettings()" title="الإعدادات">
+                    <i class="fas fa-cog fa-spin-hover" id="settingsIcon"></i>
+                </button>
+            </div>
+            
+            <div class="controls controls-right">
+                <button class="icon-btn" onclick="toggleLanguage()" title="تغيير اللغة">
+                    <i class="fas fa-globe"></i>
+                </button>
+            </div>
+            
+            <h1 data-ar="أسعار الذهب في الجزائر" data-en="Gold Prices Algeria">أسعار الذهب في الجزائر</h1>
+            <p data-ar="حساب علمي مطابق للسوق الجزائري (الموازي)" data-en="Scientific calculation matching Algerian market (parallel)">حساب علمي مطابق للسوق الجزائري (الموازي)</p>
+        </div>
     </header>
 
-
-    <section class="main">
-        <div>
-            <h2>Hello, I'm Billel<br><span>Web Developer & Graphic Designer</span></h2>
-            <h3>I am Billel br, a professional web developer and graphic designer,<br> dedicated to delivering intuitive,<br> user-centric digital experiences through clean code,<br> responsive design, and visually impactful branding.</h3>
-            <a href="#projects" class="main-btn">View my work</a>
-            <div class="social-icons">
-                <a href="https://www.linkedin.com/in/billel-bouras-31216231b/"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.facebook.com/el.blidi.507"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/billel_bouras/"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.youtube.com/@Studio_Billel_Br"><i class="fab fa-youtube"></i></a>
+    <div class="container">
+        <!-- Settings Panel -->
+        <div class="settings-panel" id="settingsPanel">
+            <div class="settings-header">
+                <i class="fas fa-sliders-h"></i>
+                <span data-ar="إعدادات الحساب العلمي" data-en="Scientific Calculation Settings">إعدادات الحساب العلمي</span>
+            </div>
+            
+            <div class="settings-grid">
+                <div class="setting-item">
+                    <label>
+                        <i class="fas fa-globe-americas"></i>
+                        <span data-ar="سعر الأونصة العالمي (USD)" data-en="Global Gold Ounce Price (USD)">سعر الأونصة العالمي (USD)</span>
+                    </label>
+                    <input type="number" id="globalOunce" value="2200" step="0.01" onchange="updateCalculation()">
+                </div>
+                
+                <div class="setting-item">
+                    <label>
+                        <i class="fas fa-exchange-alt"></i>
+                        <span data-ar="سعر الدولار في السوق الموازي (DZD)" data-en="USD Parallel Market Rate (DZD)">سعر الدولار في السوق الموازي (DZD)</span>
+                    </label>
+                    <input type="number" id="usdDzdRate" value="210" step="0.1" onchange="updateCalculation()">
+                </div>
+                
+                <div class="setting-item">
+                    <label>
+                        <i class="fas fa-percentage"></i>
+                        <span data-ar="معامل السوق (1.02 - 1.05)" data-en="Market Factor (1.02 - 1.05)">معامل السوق (1.02 - 1.05)</span>
+                    </label>
+                    <input type="number" id="marketFactor" value="1.03" step="0.01" min="1.00" max="1.10" onchange="updateCalculation()">
+                </div>
+            </div>
+            
+            <div class="formula-display">
+                <code>Gold_DZD = ((Gold_Ounce_USD / 31.1035) × USD_DZD) × (Karat / 24) × Market_Factor</code>
+                <div id="calculationSteps" style="margin-top: 0.75rem;"></div>
+            </div>
+            
+            <div class="settings-actions">
+                <button class="btn btn-primary" onclick="fetchGlobalPrice()">
+                    <i class="fas fa-sync-alt"></i>
+                    <span data-ar="جلب السعر العالمي" data-en="Fetch Global Price">جلب السعر العالمي</span>
+                </button>
+                <button class="btn btn-secondary" onclick="resetSettings()">
+                    <i class="fas fa-undo"></i>
+                    <span data-ar="إعادة تعيين" data-en="Reset">إعادة تعيين</span>
+                </button>
             </div>
         </div>
-        <div class="profile-image">
-    <div class="image-border">
-      <img src="images/IMG_9448.JPG" alt="Billel BR">
-    </div>
-  </div>
 
-    </section>
+        <!-- Live Indicator -->
+        <div class="live-indicator">
+            <span class="pulse"></span>
+            <span data-ar="مباشر - محدث كل 30 ثانية" data-en="LIVE - Updates every 30s">مباشر - محدث كل 30 ثانية</span>
+        </div>
 
-    <section class="cards" id="services">
-        <h2 class="title">Services</h2>
-        <div class="content">
-            <div class="card">
-                <div class="icon">
-                    <i class="fas fa-code"></i>
+        <!-- Price Cards -->
+        <div class="prices-grid">
+            <div class="price-card">
+                <div class="carat-label">
+                    <i class="fas fa-gem"></i>
+                    24 <span data-ar="قيراط" data-en="Karat">قيراط</span>
                 </div>
-                <div class="info">
-                    <h3>Frontend & Backend Development</h3>
-                    <p>I specialize in building seamless, interactive user experiences on the front end, while ensuring robust functionality and smooth data integration on the back end — all tailored to deliver performance, scalability, and intuitive design.</p>
+                <div class="price-value" id="price24">--</div>
+                <div class="price-change" id="change24">--</div>
+                <div class="price-details">
+                    <span data-ar="السعر العالمي:" data-en="Global:">السعر العالمي:</span> <span id="global24">--</span> DZD<br>
+                    <span data-ar="بعد المعامل:" data-en="After Factor:">بعد المعامل:</span> <span id="final24">--</span> DZD
                 </div>
             </div>
-            <div class="card">
-                <div class="icon">
-                    <i class="fas fa-paint-brush"></i>
+            
+            <div class="price-card">
+                <div class="carat-label">
+                    <i class="fas fa-gem"></i>
+                    22 <span data-ar="قيراط" data-en="Karat">قيراط</span>
                 </div>
-                <div class="info">
-                    <h3>Graphic Designer</h3>
-                    <p>I craft visually compelling designs and user interfaces by blending creative vision with a strong sense of colour, typography, and balance — ensuring each design communicates the brand identity and captures attention.</p>
+                <div class="price-value" id="price22">--</div>
+                <div class="price-change" id="change22">--</div>
+                <div class="price-details">
+                    <span data-ar="النقاء:" data-en="Purity:">النقاء:</span> 91.6% | <span data-ar="المعامل:" data-en="Factor:">المعامل:</span> 22/24
                 </div>
             </div>
-            <div class="card">
-                <div class="icon">
-                    <i class="fas fa-object-group"></i>
+            
+            <div class="price-card">
+                <div class="carat-label">
+                    <i class="fas fa-gem"></i>
+                    21 <span data-ar="قيراط" data-en="Karat">قيراط</span>
                 </div>
-                <div class="info">
-                    <h3>UX/UI Design</h3>
-                    <p>I design intuitive and user-centered interfaces that prioritize clarity, accessibility, and seamless interaction. By focusing on user behavior and experience, I ensure designs that feel natural and enhance satisfaction.</p>
+                <div class="price-value" id="price21">--</div>
+                <div class="price-change" id="change21">--</div>
+                <div class="price-details">
+                    <span data-ar="النقاء:" data-en="Purity:">النقاء:</span> 87.5%<br>
+                    <span data-ar="الأكثر انتشاراً في الجزائر" data-en="Most common in Algeria">الأكثر انتشاراً في الجزائر</span>
+                </div>
+            </div>
+            
+            <div class="price-card">
+                <div class="carat-label">
+                    <i class="fas fa-gem"></i>
+                    18 <span data-ar="قيراط" data-en="Karat">قيراط</span>
+                </div>
+                <div class="price-value" id="price18">--</div>
+                <div class="price-change" id="change18">--</div>
+                <div class="price-details">
+                    <span data-ar="النقاء:" data-en="Purity:">النقاء:</span> 75% | <span data-ar="المعامل:" data-en="Factor:">المعامل:</span> 18/24
                 </div>
             </div>
         </div>
-    </section>
 
- <section class="projects" id="projects">
-    <h2 class="title">Projects</h2>
-
-    <div class="content">
-        <div class="project-card">
-            <div class="project-image">
-                <img src="images/work1.png" />
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <div class="chart-header">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-line"></i>
+                    <span data-ar="تحليل الأسعار" data-en="Price Analysis">تحليل الأسعار</span>
+                </h2>
+                <div class="time-buttons">
+                    <button class="time-btn active" onclick="changeTimeframe('day')">24<span data-ar="س" data-en="h">س</span></button>
+                    <button class="time-btn" onclick="changeTimeframe('week')">7<span data-ar="أ" data-en="d">أ</span></button>
+                    <button class="time-btn" onclick="changeTimeframe('month')">30<span data-ar="ي" data-en="d">ي</span></button>
+                    <button class="time-btn" onclick="changeTimeframe('year')">1<span data-ar="سنة" data-en="y">سنة</span></button>
+                </div>
             </div>
-            <div class="project-info">
-                <p class="project-category">Frontend & Backend Development</p>
-                <strong class="project-title">
-                    <span>AUTOLOC - Car Rental Website <br> project</span>
-                    <a href="project-details.html" class="more-details">More details</a>
-                </strong>
-            </div>
-        </div>  
-
-        <div class="project-card">
-            <div class="project-image">
-                <img src="images/job1.png" />
-            </div>
-            <div class="project-info">
-                <p class="project-category">Frontend & Backend Development</p>
-                <strong class="project-title">
-                    <span>Système de Gestion de la Cantine <br> project</span>
-                    <a href="project-details1.html" class="more-details">More details</a>
-                </strong>
-            </div>
-        </div>  
-
-         <div class="project-card">
-            <div class="project-image">
-                <img src="images/wo1.png" />
-            </div>
-            <div class="project-info">
-                <p class="project-category">Graphic Design</p>
-                <strong class="project-title">
-                    <span>Graphic Design & Visual Identity <br> project</span>
-                    <a href="project-details2.html" class="more-details">More details</a>
-                </strong>
-            </div>
-        </div>  
-
-         <div class="project-card">
-            <div class="project-image">
-                <img src="images/ux.png" />
-            </div>
-            <div class="project-info">
-                <p class="project-category">UX/UI Design</p>
-                <strong class="project-title">
-                    <span>UX/UI Design & Interactive Interfaces <br> project</span>
-                    <a href="project-details3.html" class="more-details">More details</a>
-                </strong>
-            </div>
-        </div>  
-
-    </div>
-          <div class="floating-icons">
-    <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" class="icon html" />
-    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968292.png" class="icon css" />
-    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968332.png" class="icon js" />
-    <img src="https://cdn-icons-png.flaticon.com/512/919/919825.png" class="icon php" />
-    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968705.png" class="icon react" />
-    <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" class="icon figma" />
-    <img src="https://cdn-icons-png.flaticon.com/512/174/174881.png" class="icon xd" />
-    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968672.png" class="icon python" />
-    <img src="https://cdn-icons-png.flaticon.com/512/906/906324.png" class="icon code" />
-    <img src="https://cdn-icons-png.flaticon.com/512/1822/1822899.png" class="icon ux" />
-  </div>
-</section>
-
-
-    <section class="cards contact" id="contact">
-        <h2 class="title">Let's work together</h2>
-        <div class="content">
-           <a href="https://wa.me/213797475913?text=Salam%20Billel%2C%20je%20veux%20parler%20avec%20toi..." target="_blank" class="card" style="text-decoration: none; color: inherit;">
-    <div class="icon">
-        <i class="fas fa-phone"></i>
-    </div>
-    <div class="info">
-        <h3>Phone / WhatsApp</h3>
-        <p>+213 797475913</p>
-    </div>
-</a>
-
-         <a href="https://mail.google.com/mail/?view=cm&fs=1&to=billelbouras31@gmail.com&su=Demande%20de%20contact&body=Bonjour%20Billel%2C%0AJe%20voudrais%20parler%20avec%20vous%20au%20sujet%20de..." target="_blank" class="card" style="text-decoration: none; color: inherit;">
-    <div class="icon">
-        <i class="fas fa-envelope"></i>
-    </div>
-    <div class="info">
-        <h3>Email</h3>
-        <p>billelbouras31@gmail.com</p>
-    </div>
-</a>
-
+            <canvas id="goldChart" height="100"></canvas>
         </div>
-    </section>
 
-
-    <section class="main2" id="AboutMe">
-        <div>
-           
-          
-   <h2><span>Education & Certifications:</span><br><br></h2>
-<h3>
-   Higher Technician Diploma in Computer Science <br><br>
-
-   Web Development & Programming Certificates:<br>
-  &nbsp;&nbsp;&nbsp;&bull; Web Development Certificate – satr codes Platform<br>
-  &nbsp;&nbsp;&nbsp;&bull; Front-End & Back-End Basics – Udemy<br>
-  &nbsp;&nbsp;&nbsp;&bull; UI/UX Design with Figma – Coursera<br>
-  &nbsp;&nbsp;&nbsp;&bull; Adobe Photoshop & Illustrator – Self-taught
-</h3>
-
-<h2><span>Languages I Speak:</span><br><br></h2>
-<h3>
-  - Arabic (native) 🇩🇿<br>
-  - French (intermediate) 🇫🇷<br>
-  - English (intermediate) 🇺🇸
-</h3>
-
-<h2><span>Tech Stack:</span><br><br></h2>
-<h3>
-  - HTML, CSS, JavaScript<br>
-  - PHP, MySQL, FL Studio, Dart <br>
-  - Git & GitHub<br>
-  - Adobe Photoshop, Illustrator, Premiere Pro, After Effect<br>
-  - CapCut, Canva<br>
-  - Figma, Adobe XD
-</h3>
-
-
-    </section>
-
-
-        <section class="cards contact" id="contact">
-        <h2 class="title">My Portfolio</h2>
-        <div class="content">
-
-<a href="files/billel_br_compressed.pdf" download target="_blank" class="card" style="text-decoration: none; color: inherit;">
-  <div class="icon">
-    <i class="fas fa-file-pdf"></i>
-  </div>
-  <div class="info">
-    <h3>Portfolio</h3>
-    <p>Click to download</p>
-  </div>
-</a>
-
-
+        <!-- Currency Converter -->
+        <div class="converter-section">
+            <h2 class="converter-title">
+                <i class="fas fa-coins"></i>
+                <span data-ar="محول العملات" data-en="Currency Converter">محول العملات</span>
+            </h2>
+            <div class="converter-grid">
+                <div class="converter-input-group">
+                    <label>
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span data-ar="المبلغ" data-en="Amount">المبلغ</span>
+                    </label>
+                    <input type="number" id="convAmount" value="1" oninput="convertCurrency()">
+                    <select id="fromCurrency" onchange="convertCurrency()">
+                        <option value="DZD">🇩🇿 DZD - دينار جزائري</option>
+                        <option value="USD">🇺🇸 USD - دولار أمريكي</option>
+                        <option value="EUR">🇪🇺 EUR - يورو</option>
+                        <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
+                    </select>
+                </div>
+                
+                <button class="swap-btn" onclick="swapCurrencies()">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                
+                <div class="converter-input-group">
+                    <label>
+                        <i class="fas fa-calculator"></i>
+                        <span data-ar="النتيجة" data-en="Result">النتيجة</span>
+                    </label>
+                    <input type="text" id="convResult" readonly>
+                    <select id="toCurrency" onchange="convertCurrency()">
+                        <option value="USD">🇺🇸 USD - دولار أمريكي</option>
+                        <option value="DZD" selected>🇩🇿 DZD - دينار جزائري</option>
+                        <option value="EUR">🇪🇺 EUR - يورو</option>
+                        <option value="GBP">🇬🇧 GBP - جنيه إسترليني</option>
+                    </select>
+                </div>
+            </div>
         </div>
-    </section>
-    
+
+        <!-- Gold Calculator -->
+        <div class="calculator-section">
+            <h2 class="section-title">
+                <i class="fas fa-balance-scale"></i>
+                <span data-ar="حاسبة الذهب" data-en="Gold Calculator">حاسبة الذهب</span>
+            </h2>
+            <div class="calc-grid">
+                <div class="calc-input-group">
+                    <label>
+                        <i class="fas fa-weight-hanging"></i>
+                        <span data-ar="الوزن (جرام)" data-en="Weight (grams)">الوزن (جرام)</span>
+                    </label>
+                    <input type="number" id="calcWeight" placeholder="10" oninput="calculateGold()">
+                </div>
+                
+                <div class="calc-input-group">
+                    <label>
+                        <i class="fas fa-gem"></i>
+                        <span data-ar="العيار" data-en="Karat">العيار</span>
+                    </label>
+                    <select id="calcKarat" onchange="calculateGold()">
+                        <option value="24">24 قيراط (99.9%)</option>
+                        <option value="22">22 قيراط (91.6%)</option>
+                        <option value="21" selected>21 قيراط (87.5%)</option>
+                        <option value="18">18 قيراط (75%)</option>
+                    </select>
+                </div>
+                
+                <div class="calc-input-group">
+                    <label>
+                        <i class="fas fa-tag"></i>
+                        <span data-ar="سعر الغرام (دينار)" data-en="Price per gram (DZD)">سعر الغرام (دينار)</span>
+                    </label>
+                    <input type="number" id="calcPricePerGram" placeholder="تلقائي" oninput="calculateGold()">
+                </div>
+                
+                <div class="calc-result">
+                    <div class="calc-result-label">
+                        <i class="fas fa-coins"></i>
+                        <span data-ar="القيمة الإجمالية" data-en="Total Value">القيمة الإجمالية</span>
+                    </div>
+                    <div class="calc-result-value" id="calcTotal">0 DZD</div>
+                    <div class="calc-breakdown" id="calcBreakdown">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Price Alerts -->
+        <div class="alerts-section">
+            <h2 class="section-title">
+                <i class="fas fa-bell"></i>
+                <span data-ar="تنبيهات الأسعار" data-en="Price Alerts">تنبيهات الأسعار</span>
+            </h2>
+            <p class="section-description" data-ar="سيتم تنبيهك عندما يصل السعر إلى الحد المحدد" data-en="You will be notified when price reaches the set limit">سيتم تنبيهك عندما يصل السعر إلى الحد المحدد</p>
+            
+            <div class="alert-form">
+                <div class="calc-input-group">
+                    <label>
+                        <i class="fas fa-gem"></i>
+                        <span data-ar="العيار" data-en="Karat">العيار</span>
+                    </label>
+                    <select id="alertKarat">
+                        <option value="24">24 قيراط</option>
+                        <option value="22">22 قيراط</option>
+                        <option value="21">21 قيراط</option>
+                        <option value="18">18 قيراط</option>
+                    </select>
+                </div>
+                
+                <div class="calc-input-group">
+                    <label>
+                        <i class="fas fa-bullseye"></i>
+                        <span data-ar="السعر المستهدف" data-en="Target Price">السعر المستهدف</span>
+                    </label>
+                    <input type="number" id="alertPrice" placeholder="15000">
+                </div>
+                
+                <div class="calc-input-group">
+                    <label>
+                        <i class="fas fa-arrow-trend-up"></i>
+                        <span data-ar="نوع التنبيه" data-en="Alert Type">نوع التنبيه</span>
+                    </label>
+                    <select id="alertType">
+                        <option value="above" data-ar="عند الارتفاع" data-en="When Rising">عند الارتفاع</option>
+                        <option value="below" data-ar="عند الانخفاض" data-en="When Falling">عند الانخفاض</option>
+                    </select>
+                </div>
+                
+                <div style="display: flex; align-items: flex-end;">
+                    <button class="btn btn-primary" onclick="addAlert()" style="width: 100%;">
+                        <i class="fas fa-plus"></i>
+                        <span data-ar="إضافة تنبيه" data-en="Add Alert">إضافة تنبيه</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="alertsList"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
     <footer class="footer">
-        <p class="footer-title">Copyrights @ <span>Billel br</span></p>
-        <div class="social-icons">
-            <a href="https://www.linkedin.com/in/billel-bouras-31216231b/"><i class="fab fa-linkedin"></i></a>
-                <a href="https://www.facebook.com/el.blidi.507"><i class="fab fa-facebook"></i></a>
-                <a href="https://www.instagram.com/billel_bouras/"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.youtube.com/@Studio_Billel_Br"><i class="fab fa-youtube"></i></a>
+        <div class="footer-main">
+            <div class="footer-title" data-ar="أسعار الذهب الجزائر" data-en="Gold Prices Algeria">أسعار الذهب الجزائر</div>
+            <p class="footer-disclaimer" data-ar="الأسعار تقريبية قبل إضافة مصنعية الصياغة (20-30%). السعر العالمي يتحدث تلقائياً. سعر الصرف يدوي حسب السوق الموازي." data-en="Prices are approximate before craftsmanship fee (20-30%). Global price updates automatically. Exchange rate is manual based on parallel market.">
+                الأسعار تقريبية قبل إضافة مصنعية الصياغة (20-30%). السعر العالمي يتحدث تلقائياً. سعر الصرف يدوي حسب السوق الموازي.
+            </p>
+        </div>
+        
+        <!-- Developer Credit -->
+        <div class="developer-credit">
+            <a href="https://billelbr.github.io/Billel_br/" target="_blank" class="developer-link">
+                <i class="fas fa-code"></i>
+                <span>BY Billel BR</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
         </div>
     </footer>
 
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-bell"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title" id="notifTitle">تنبيه!</div>
+            <div class="notification-message" id="notifMessage">رسالة التنبيه</div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const GRAMS_PER_OUNCE = 31.1035;
+        const CONFIG = {
+            refreshInterval: 30000,
+            alertCheckInterval: 60000
+        };
+
+        // State
+        let currentLang = 'ar';
+        let darkMode = false;
+        let chartInstance = null;
+        let alerts = JSON.parse(localStorage.getItem('goldAlerts')) || [];
+        let currentPrices = { 24: 0, 22: 0, 21: 0, 18: 0 };
+        let previousPrices = { 24: 0, 22: 0, 21: 0, 18: 0 };
+        
+        const exchangeRates = { USD: 1, DZD: 210, EUR: 0.92, GBP: 0.79 };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCalculation();
+            initChart();
+            convertCurrency();
+            renderAlerts();
+            startAutoRefresh();
+            
+            // Check for saved dark mode
+            if (localStorage.getItem('darkMode') === 'true') {
+                toggleDarkMode();
+            }
+        });
+
+        function startAutoRefresh() {
+            setInterval(fetchGlobalPrice, CONFIG.refreshInterval);
+            setInterval(checkAlerts, CONFIG.alertCheckInterval);
+        }
+
+        // Settings
+        function toggleSettings() {
+            const panel = document.getElementById('settingsPanel');
+            const icon = document.getElementById('settingsIcon');
+            panel.classList.toggle('show');
+            
+            if (panel.classList.contains('show')) {
+                icon.classList.add('fa-spin');
+            } else {
+                icon.classList.remove('fa-spin');
+            }
+        }
+
+        // Calculation Engine
+        function updateCalculation() {
+            const globalOunce = parseFloat(document.getElementById('globalOunce').value) || 2200;
+            const usdDzd = parseFloat(document.getElementById('usdDzdRate').value) || 210;
+            const marketFactor = parseFloat(document.getElementById('marketFactor').value) || 1.03;
+            
+            // Step 1: Price per gram USD
+            const pricePerGramUSD = globalOunce / GRAMS_PER_OUNCE;
+            
+            // Step 2: Convert to DZD (24K raw)
+            const price24Raw = pricePerGramUSD * usdDzd;
+            
+            // Step 3 & 4: Apply karat ratio and market factor
+            const karats = [24, 22, 21, 18];
+            
+            karats.forEach(karat => {
+                const purity = karat / 24;
+                const priceBeforeFactor = price24Raw * purity;
+                const finalPrice = Math.round(priceBeforeFactor * marketFactor);
+                
+                currentPrices[karat] = finalPrice;
+                
+                // Update DOM
+                const priceEl = document.getElementById(`price${karat}`);
+                const changeEl = document.getElementById(`change${karat}`);
+                
+                const oldPrice = previousPrices[karat] || finalPrice;
+                const changePercent = ((finalPrice - oldPrice) / oldPrice * 100).toFixed(2);
+                const isUp = finalPrice >= oldPrice;
+                
+                // Animate price change
+                animateValue(priceEl, parseInt(priceEl.textContent.replace(/[^0-9]/g, '')) || 0, finalPrice, 500);
+                
+                // Update change indicator
+                if (previousPrices[karat] > 0 && Math.abs(changePercent) > 0.01) {
+                    changeEl.innerHTML = `<i class="fas fa-caret-${isUp ? 'up' : 'down'}"></i> ${Math.abs(changePercent)}%`;
+                    changeEl.className = `price-change ${isUp ? 'price-up' : 'price-down'}`;
+                    
+                    if (Math.abs(changePercent) > 1) {
+                        showNotification(
+                            currentLang === 'ar' ? 'تغير سعر مهم!' : 'Significant Price Change!',
+                            `${karat}K ${isUp ? (currentLang === 'ar' ? 'ارتفع' : 'up') : (currentLang === 'ar' ? 'انخفض' : 'down')} ${Math.abs(changePercent)}%`
+                        );
+                    }
+                } else {
+                    changeEl.innerHTML = '<i class="fas fa-minus"></i> 0.00%';
+                    changeEl.className = 'price-change price-up';
+                }
+                
+                // Update details for 24K
+                if (karat === 24) {
+                    document.getElementById('global24').textContent = Math.round(price24Raw).toLocaleString();
+                    document.getElementById('final24').textContent = finalPrice.toLocaleString();
+                }
+            });
+            
+            previousPrices = {...currentPrices};
+            updateCalculationSteps(globalOunce, pricePerGramUSD, usdDzd, price24Raw, marketFactor);
+            calculateGold();
+            updateChartData();
+        }
+
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const minTimer = 50;
+            let stepTime = Math.abs(Math.floor(duration / range));
+            stepTime = Math.max(stepTime, minTimer);
+            
+            let startTime = new Date().getTime();
+            let endTime = startTime + duration;
+            let timer;
+            
+            function run() {
+                let now = new Date().getTime();
+                let remaining = Math.max((endTime - now) / duration, 0);
+                let value = Math.round(end - (remaining * range));
+                element.textContent = value.toLocaleString() + ' DZD';
+                if (value == end) clearInterval(timer);
+            }
+            
+            timer = setInterval(run, stepTime);
+            run();
+        }
+
+        function updateCalculationSteps(ounce, gramUSD, usdDzd, raw24, factor) {
+            const final24 = Math.round(raw24 * factor);
+            const final21 = Math.round(raw24 * factor * 0.875);
+            const final18 = Math.round(raw24 * factor * 0.75);
+            
+            const steps = `
+                <div style="display: grid; gap: 0.5rem;">
+                    <div><i class="fas fa-divide" style="color: var(--gold-dark);"></i> ${ounce} ÷ ${GRAMS_PER_OUNCE} = <strong>${gramUSD.toFixed(2)} USD/g</strong></div>
+                    <div><i class="fas fa-times" style="color: var(--gold-dark);"></i> × ${usdDzd} = <strong>${Math.round(raw24).toLocaleString()} DZD (24K raw)</strong></div>
+                    <div><i class="fas fa-percentage" style="color: var(--gold-dark);"></i> × ${factor} = <strong>${final24.toLocaleString()} DZD (24K final)</strong></div>
+                    <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--gold-primary);">
+                        <i class="fas fa-check-circle" style="color: #22c55e;"></i> 
+                        21K: ${final21.toLocaleString()} DZD | 18K: ${final18.toLocaleString()} DZD
+                    </div>
+                </div>
+            `;
+            document.getElementById('calculationSteps').innerHTML = steps;
+        }
+
+        // API Integration
+        async function fetchGlobalPrice() {
+            try {
+                const apis = [
+                    { url: 'https://api.gold-api.com/price/XAU', headers: {} },
+                    { url: 'https://www.goldapi.io/api/XAU/USD', headers: {'x-access-token': 'goldapi-demo'} }
+                ];
+                
+                let data = null;
+                
+                for (let api of apis) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 5000);
+                        
+                        const response = await fetch(api.url, { 
+                            headers: api.headers,
+                            signal: controller.signal
+                        });
+                        clearTimeout(timeoutId);
+                        
+                        if (response.ok) {
+                            data = await response.json();
+                            break;
+                        }
+                    } catch (e) { continue; }
+                }
+                
+                if (data && (data.price || data.rate)) {
+                    const price = data.price || data.rate;
+                    document.getElementById('globalOunce').value = price;
+                    updateCalculation();
+                    showNotification(
+                        currentLang === 'ar' ? 'تم التحديث' : 'Updated',
+                        `${currentLang === 'ar' ? 'السعر العالمي:' : 'Global price:'} $${price}`
+                    );
+                }
+            } catch (error) {
+                console.log('Using cached/simulated data');
+            }
+        }
+
+        function resetSettings() {
+            document.getElementById('globalOunce').value = 2200;
+            document.getElementById('usdDzdRate').value = 210;
+            document.getElementById('marketFactor').value = 1.03;
+            updateCalculation();
+            showNotification(
+                currentLang === 'ar' ? 'تم إعادة التعيين' : 'Reset Complete',
+                currentLang === 'ar' ? 'تم استعادة الإعدادات الافتراضية' : 'Default settings restored'
+            );
+        }
+
+        // Language
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            
+            document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLang}`);
+            });
+            
+            if (chartInstance) {
+                chartInstance.data.datasets[0].label = currentLang === 'ar' ? 'سعر الذهب (دينار)' : 'Gold Price (DZD)';
+                chartInstance.update();
+            }
+        }
+
+        // Dark Mode
+        function toggleDarkMode() {
+            darkMode = !darkMode;
+            document.body.classList.toggle('dark-mode');
+            
+            const icon = document.getElementById('darkModeIcon');
+            icon.className = darkMode ? 'fas fa-sun' : 'fas fa-moon';
+            
+            localStorage.setItem('darkMode', darkMode);
+            
+            if (chartInstance) updateChartColors();
+        }
+
+        // Chart
+        function initChart() {
+            const ctx = document.getElementById('goldChart').getContext('2d');
+            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+            gradient.addColorStop(0, 'rgba(212, 175, 55, 0.4)');
+            gradient.addColorStop(1, 'rgba(212, 175, 55, 0.0)');
+            
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: generateTimeLabels('day'),
+                    datasets: [{
+                        label: currentLang === 'ar' ? 'سعر الذهب (دينار)' : 'Gold Price (DZD)',
+                        data: generateChartData('day'),
+                        borderColor: '#D4AF37',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#D4AF37',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20,
+                                font: { family: 'Tajawal', size: 12 }
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: darkMode ? '#1e293b' : '#fff',
+                            titleColor: darkMode ? '#f1f5f9' : '#1e293b',
+                            bodyColor: darkMode ? '#94a3b8' : '#64748b',
+                            borderColor: 'rgba(212,175,55,0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 12,
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: darkMode ? '#94a3b8' : '#64748b',
+                                font: { family: 'Inter', size: 11 },
+                                callback: function(value) {
+                                    return value.toLocaleString();
+                                }
+                            }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                color: darkMode ? '#94a3b8' : '#64748b',
+                                font: { family: 'Tajawal', size: 11 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChartColors() {
+            if (!chartInstance) return;
+            const textColor = darkMode ? '#94a3b8' : '#64748b';
+            const gridColor = darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+            
+            chartInstance.options.plugins.legend.labels.color = textColor;
+            chartInstance.options.scales.y.ticks.color = textColor;
+            chartInstance.options.scales.x.ticks.color = textColor;
+            chartInstance.options.scales.y.grid.color = gridColor;
+            chartInstance.options.plugins.tooltip.backgroundColor = darkMode ? '#1e293b' : '#fff';
+            chartInstance.options.plugins.tooltip.titleColor = darkMode ? '#f1f5f9' : '#1e293b';
+            chartInstance.options.plugins.tooltip.bodyColor = darkMode ? '#94a3b8' : '#64748b';
+            
+            chartInstance.update();
+        }
+
+        function updateChartData() {
+            if (!chartInstance) return;
+            const base = currentPrices[24] || 15000;
+            const data = chartInstance.data.datasets[0].data;
+            data.shift();
+            data.push(base + (Math.random() * 200 - 100));
+            chartInstance.update('none');
+        }
+
+        function changeTimeframe(period) {
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.includes(period === 'day' ? '24' : period === 'week' ? '7' : period === 'month' ? '30' : '1')) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            chartInstance.data.labels = generateTimeLabels(period);
+            chartInstance.data.datasets[0].data = generateChartData(period);
+            chartInstance.update();
+        }
+
+        function generateTimeLabels(period) {
+            const labels = [];
+            const now = new Date();
+            const count = period === 'day' ? 24 : period === 'week' ? 7 : period === 'month' ? 30 : 12;
+            
+            for (let i = count - 1; i >= 0; i--) {
+                const d = new Date(now);
+                if (period === 'day') d.setHours(d.getHours() - i);
+                else if (period === 'year') d.setMonth(d.getMonth() - i);
+                else d.setDate(d.getDate() - i);
+                
+                if (period === 'day') labels.push(d.getHours() + ':00');
+                else if (period === 'year') labels.push(d.toLocaleString(currentLang, {month: 'short'}));
+                else labels.push(d.getDate() + '/' + (d.getMonth() + 1));
+            }
+            return labels;
+        }
+
+        function generateChartData(period) {
+            const base = currentPrices[24] || 15000;
+            const volatility = period === 'day' ? 100 : period === 'year' ? 1000 : 500;
+            const data = [];
+            let current = base;
+            const count = period === 'day' ? 24 : period === 'week' ? 7 : period === 'month' ? 30 : 12;
+            
+            for (let i = 0; i < count; i++) {
+                current = current + (Math.random() * volatility * 2 - volatility);
+                data.push(Math.round(current));
+            }
+            return data;
+        }
+
+        // Currency Converter
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('convAmount').value) || 0;
+            const from = document.getElementById('fromCurrency').value;
+            const to = document.getElementById('toCurrency').value;
+            
+            exchangeRates.DZD = parseFloat(document.getElementById('usdDzdRate').value) || 210;
+            
+            const rateFrom = exchangeRates[from];
+            const rateTo = exchangeRates[to];
+            const result = (amount * rateFrom / rateTo).toFixed(2);
+            
+            document.getElementById('convResult').value = parseFloat(result).toLocaleString() + ' ' + to;
+        }
+
+        function swapCurrencies() {
+            const from = document.getElementById('fromCurrency');
+            const to = document.getElementById('toCurrency');
+            const temp = from.value;
+            from.value = to.value;
+            to.value = temp;
+            convertCurrency();
+        }
+
+        // Gold Calculator
+        function calculateGold() {
+            const weight = parseFloat(document.getElementById('calcWeight').value) || 0;
+            const karat = parseInt(document.getElementById('calcKarat').value);
+            let pricePerGram = parseFloat(document.getElementById('calcPricePerGram').value);
+            
+            if (!pricePerGram || pricePerGram <= 0) {
+                pricePerGram = currentPrices[karat];
+                document.getElementById('calcPricePerGram').placeholder = pricePerGram ? pricePerGram.toLocaleString() : '0';
+            }
+            
+            const total = weight * pricePerGram;
+            const purity = (karat / 24 * 100).toFixed(1);
+            
+            document.getElementById('calcTotal').textContent = total.toLocaleString() + ' DZD';
+            document.getElementById('calcBreakdown').innerHTML = `
+                <i class="fas fa-weight-hanging"></i> ${weight}g × 
+                <i class="fas fa-tag"></i> ${pricePerGram.toLocaleString()} DZD/g 
+                (${karat}K = ${purity}% <i class="fas fa-gem"></i>)
+            `;
+        }
+
+        // Alerts System
+        function addAlert() {
+            const karat = document.getElementById('alertKarat').value;
+            const price = parseFloat(document.getElementById('alertPrice').value);
+            const type = document.getElementById('alertType').value;
+            
+            if (!price || price <= 0) {
+                showNotification(
+                    currentLang === 'ar' ? 'خطأ' : 'Error',
+                    currentLang === 'ar' ? 'الرجاء إدخال سعر صحيح' : 'Please enter a valid price'
+                );
+                return;
+            }
+            
+            const alert = {
+                id: Date.now(),
+                karat: karat,
+                price: price,
+                type: type,
+                active: true,
+                createdAt: new Date().toISOString()
+            };
+            
+            alerts.push(alert);
+            localStorage.setItem('goldAlerts', JSON.stringify(alerts));
+            renderAlerts();
+            
+            showNotification(
+                currentLang === 'ar' ? 'تم!' : 'Success!',
+                currentLang === 'ar' ? 'تم إضافة التنبيه بنجاح' : 'Alert added successfully'
+            );
+            
+            document.getElementById('alertPrice').value = '';
+        }
+
+        function removeAlert(id) {
+            alerts = alerts.filter(a => a.id !== id);
+            localStorage.setItem('goldAlerts', JSON.stringify(alerts));
+            renderAlerts();
+        }
+
+        function renderAlerts() {
+            const container = document.getElementById('alertsList');
+            
+            if (alerts.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <div>${currentLang === 'ar' ? 'لا توجد تنبيهات حالياً' : 'No alerts yet'}</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = alerts.map(alert => `
+                <div class="alert-item">
+                    <div class="alert-info">
+                        <div class="alert-karat">
+                            <i class="fas fa-gem"></i> ${alert.karat} ${currentLang === 'ar' ? 'قيراط' : 'Karat'}
+                        </div>
+                        <div class="alert-condition">
+                            ${alert.type === 'above' ? '<i class="fas fa-arrow-trend-up"></i>' : '<i class="fas fa-arrow-trend-down"></i>'} 
+                            ${alert.type === 'above' ? (currentLang === 'ar' ? 'أعلى من' : 'Above') : (currentLang === 'ar' ? 'أقل من' : 'Below')} 
+                            <strong>${alert.price.toLocaleString()} DZD</strong>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-icon" onclick="removeAlert(${alert.id})" title="${currentLang === 'ar' ? 'حذف' : 'Delete'}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function checkAlerts() {
+            alerts.forEach(alert => {
+                if (!alert.active) return;
+                
+                const currentPrice = currentPrices[alert.karat];
+                let triggered = false;
+                
+                if (alert.type === 'above' && currentPrice >= alert.price) triggered = true;
+                else if (alert.type === 'below' && currentPrice <= alert.price) triggered = true;
+                
+                if (triggered) {
+                    showNotification(
+                        '🚨 ' + (currentLang === 'ar' ? 'تنبيه سعر!' : 'Price Alert!'),
+                        `${alert.karat}K ${currentLang === 'ar' ? 'الآن' : 'is now'} ${currentPrice.toLocaleString()} DZD`
+                    );
+                    alert.active = false;
+                    localStorage.setItem('goldAlerts', JSON.stringify(alerts));
+                    renderAlerts();
+                }
+            });
+        }
+
+        // Notification System
+        function showNotification(title, message) {
+            const notif = document.getElementById('notification');
+            document.getElementById('notifTitle').textContent = title;
+            document.getElementById('notifMessage').textContent = message;
+            
+            notif.classList.add('show');
+            
+            // Play sound if enabled (optional)
+            // new Audio('notification.mp3').play().catch(() => {});
+            
+            setTimeout(() => {
+                notif.classList.remove('show');
+            }, 5000);
+        }
+
+        // Close notification on click
+        document.getElementById('notification').addEventListener('click', function() {
+            this.classList.remove('show');
+        });
+    </script>
 </body>
 </html>
